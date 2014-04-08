@@ -30,8 +30,8 @@ config = {
             connection: {
                 host: 'localhost',
                 user: 'root',
-                password: '',
-                database: 'ghost-dev',
+                password: 'sanservices01',
+                database: 'ghost',
                 charset: 'utf8',
                 debug: false
             }
