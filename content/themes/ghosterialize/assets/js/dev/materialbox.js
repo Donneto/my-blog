@@ -11,27 +11,27 @@
       var origin = $(this);
       var placeholder = $('<div></div>').addClass('material-placeholder');
       var originalWidth = origin.width();
-      var originalHeight = origin.height();
+      var originalHeight = origin.height(); 
 
       origin.wrap(placeholder);
       origin.on('click', function(){
-
+        
 
         var windowWidth = window.innerWidth;
         var windowHeight = window.innerHeight;
-
+        
           // If already modal, do nothing
          if (overlayActive || doneAnimating === false) {
            returnToOriginal();
            return false;
          }
-
+        
         // add active class
         origin.addClass('active');
         originalWidth = origin.width();
         originalHeight = origin.height();
 
-
+        
         // Set positioning for placeholder
         origin.parent('.material-placeholder').css('width', origin.innerWidth())
           .css('height', originalHeight)
@@ -40,9 +40,9 @@
           .css('left', 0)
           .css('z-index', origin.attr('z-indez'));
 
-
+        
         origin.css('position', 'absolute');
-
+        
         // Add overlay
         var overlay = $('<div></div>');
         overlay.attr('id', 'materialbox-overlay')
@@ -58,13 +58,13 @@
         $('body').append(overlay);
         overlay.animate({opacity: 1}, {duration: inDuration, queue: false, easing: 'easeOutQuad'}
         );
-
+        
         // Set states
         overlayActive = true;
         doneAnimating = false;
 
-
-        // Resize Image
+        
+        // Resize Image      
         var ratio = 0;
         var widthPercent = originalWidth / windowWidth;
         var heightPercent = originalHeight / windowHeight;
@@ -92,25 +92,25 @@
           .animate({ top: $(document).scrollTop() + windowHeight/2 - origin.parent('.material-placeholder').offset().top - newHeight/ 2}, {duration: inDuration, queue: false, easing: 'easeOutQuad', complete: function(){doneAnimating = true;} });
         });
 
-
+      
       // Return on scroll
       $(window).scroll(function() {
         if (overlayActive) {
-          returnToOriginal();
+          returnToOriginal();    
         }
       });
-
+      
       // Return on ESC
       $(document).keyup(function(e) {
 
         if (e.keyCode === 27) {   // ESC key
           if (overlayActive) {
-            returnToOriginal();
+            returnToOriginal();    
           }
         }
       });
-
-
+      
+      
       // This function returns the modaled image to the original spot
       function returnToOriginal() {
           // Reset z-index
@@ -120,8 +120,8 @@
           }
           // Remove Overlay
           overlayActive = false;
-          $('#materialbox-overlay').fadeOut(outDuration, function(){
-            $(this).remove();
+          $('#materialbox-overlay').fadeOut(outDuration, function(){ 
+            $(this).remove(); 
             origin.css('z-index', original_z_index);
           });
           // Resize

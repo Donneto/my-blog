@@ -6,8 +6,8 @@
     }
     options = $.extend(defaults, options);
 
-    var origin = $(this);
-
+    var origin = $(this);    
+  
     var activates = $("#"+ origin.attr('data-activates'));
 
     activates.hide(0);
@@ -21,14 +21,14 @@
         activates.css('left', origin.offset().left);
         activates.show({duration: 200, easing: 'easeOutCubic'});
       });
-
-      // Document click handler
+      
+      // Document click handler        
       activates.on('mouseleave', function(e){ // Mouse out
         activates.hide({duration: 150, easing: 'easeOutCubic'});
       });
+      
 
-
-
+      
     } else {
       var open = false;
 
@@ -49,8 +49,8 @@
 
         });
       });
-
-
+      
+      
     }
 
     // Window Resize Reposition
@@ -60,6 +60,6 @@
         activates.css('left', origin.offset().left);
       }
     });
-
+    
   };
 }( jQuery ));

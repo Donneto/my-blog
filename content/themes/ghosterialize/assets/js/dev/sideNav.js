@@ -7,7 +7,7 @@
       e = e || window.event;
       if (e.preventDefault)
           e.preventDefault();
-      e.returnValue = false;
+      e.returnValue = false;  
     }
 
     function keydown(e) {
@@ -35,7 +35,7 @@
         if (window.removeEventListener) {
             window.removeEventListener('DOMMouseScroll', wheel, false);
         }
-        window.onmousewheel = document.onmousewheel = document.onkeydown = null;
+        window.onmousewheel = document.onmousewheel = document.onkeydown = null;  
     }
 
 
@@ -50,9 +50,9 @@
 
       var $this = $(this);
       var menu_id = $("#"+ $this.attr('data-activates'));
-
+     
       function removeMenu() {
-        $('#sidenav-overlay').animate({opacity: 0}, {duration: 300, queue: false, easing: 'easeOutQuad',
+        $('#sidenav-overlay').animate({opacity: 0}, {duration: 300, queue: false, easing: 'easeOutQuad', 
           complete: function() {
             $(this).remove();
           } });
@@ -88,12 +88,12 @@
                     menuOut = false;
                     removeMenu();
                     menu_id.velocity({left: -1 * options.menuWidth}, {duration: 300, queue: false, easing: 'easeOutQuad'});
-                    overlay.animate({opacity: 0}, {duration: 300, queue: false, easing: 'easeOutQuad',
+                    overlay.animate({opacity: 0}, {duration: 300, queue: false, easing: 'easeOutQuad', 
                       complete: function() {
                         $(this).remove();
                       } });
 
-
+                    
                   });
                 $('body').append(overlay);
               }
@@ -105,7 +105,7 @@
               else if (x >= (options.menuWidth / 2)) { menuOut = true; }
 
               menu_id.velocity({left: (-1 * options.menuWidth) + x}, {duration: 50, queue: false, easing: 'easeOutQuad'});
-
+              
               // Percentage overlay
               var overlayPerc = x / options.menuWidth;
               $('#sidenav-overlay').velocity({opacity: overlayPerc }, {duration: 50, queue: false, easing: 'easeOutQuad'});
@@ -119,7 +119,7 @@
               else {
                 if ((e.gesture.center.x < options.activationWidth) && direction === 4) {
                   panning = true;
-                }
+                }            
               }
             }
           }
@@ -133,14 +133,14 @@
           }
           else {
             menu_id.velocity({left: -240}, {duration: 300, queue: false, easing: 'easeOutQuad'});
-            $('#sidenav-overlay').velocity({opacity: 0 }, {duration: 50, queue: false, easing: 'easeOutQuad',
+            $('#sidenav-overlay').velocity({opacity: 0 }, {duration: 50, queue: false, easing: 'easeOutQuad', 
               complete: function () {
                 $(this).remove();
               }});
           }
         }
       });
-
+     
       $this.click(function() {
         if (menu_id.hasClass('active')) {
           menuOut = false;
@@ -162,11 +162,11 @@
               menuOut = false;
               panning = false;
               removeMenu();
-              overlay.animate({opacity: 0}, {duration: 300, queue: false, easing: 'easeOutQuad',
+              overlay.animate({opacity: 0}, {duration: 300, queue: false, easing: 'easeOutQuad', 
                 complete: function() {
                   $(this).remove();
                 } });
-
+              
             });
           $('body').append(overlay);
           overlay.animate({opacity: 1}, {duration: 300, queue: false, easing: 'easeOutQuad',

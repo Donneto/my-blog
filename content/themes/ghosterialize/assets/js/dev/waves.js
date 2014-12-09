@@ -1,11 +1,11 @@
 
 /*!
  * Waves v0.5.3
- * http://fian.my.id/Waves
- *
- * Copyright 2014 Alfiana E. Sibuea and other contributors
- * Released under the MIT license
- * https://github.com/fians/Waves/blob/master/LICENSE
+ * http://fian.my.id/Waves 
+ * 
+ * Copyright 2014 Alfiana E. Sibuea and other contributors 
+ * Released under the MIT license 
+ * https://github.com/fians/Waves/blob/master/LICENSE 
  */
 
 ;(function(window) {
@@ -60,12 +60,12 @@
         duration: 500,
 
         show: function(e) {
-
+            
             // Disable right click
             if (e.button === 2) {
               return false;
             }
-
+          
             var el = this;
 
             // Create ripple
@@ -79,7 +79,7 @@
             var relativeX   = (e.pageX - pos.left) - 10;
             // var scale       = 'scale('+((el.clientWidth / 100) * 2.5)+')';
             var scale = 'scale(15)';
-
+          
             // Support for touch devices
             if ('touches' in e) {
               relativeY   = (e.touches[0].pageY - pos.top) - 45;
@@ -97,7 +97,7 @@
                 'top': relativeY+'px',
                 'left': relativeX+'px'
             };
-
+            
             ripple.className = ripple.className + ' waves-notransition';
             ripple.setAttribute('style', convertStyle(rippleStyle));
             ripple.className = ripple.className.replace('waves-notransition', '');
@@ -120,11 +120,11 @@
         },
 
         hide: function() {
-
+            
             var el = this;
 
             var width = el.clientWidth * 1.4;
-
+            
             // Get first ripple
             var ripple = null;
 
@@ -183,7 +183,7 @@
                         return false;
                     }
 
-
+                    
                 }, Effect.duration);
 
             }, delay);
@@ -218,7 +218,7 @@
                     }
 
                     wrapper.setAttribute('style', dimensionStyle+elementStyle);
-
+                    
                     el.className = 'waves-button-input';
                     el.removeAttribute('style');
 
@@ -227,7 +227,7 @@
                     wrapper.appendChild(el);
 
                 }
-
+                
             }
         }
     };
@@ -239,7 +239,7 @@
         if ('duration' in options) {
             Effect.duration = options.duration;
         }
-
+        
         //Wrap input inside <i> tag
         Effect.wrapInput($$('.waves-effect'));
 

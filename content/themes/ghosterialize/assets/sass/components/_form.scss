@@ -17,7 +17,6 @@ label {
   label {
     color: $border-color;
     position: absolute;
-    z-index: -1;
     top: .8rem;
     left: .5rem;
     font-size: 1rem;
@@ -78,8 +77,17 @@ textarea:focus {
 
 textarea {
   overflow-y: hidden; /* prevents scroll bar flash */
-  padding-top: 1.2rem; /* prevents text jump on Enter keypress */
+  padding: 1.6rem 0; /* prevents text jump on Enter keypress */
   resize: none;
+}
+
+// For textarea autoresize
+.hiddendiv {
+  display: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word; /* future version of deprecated 'word-wrap' */
+  padding-top: 1.2rem; /* prevents text jump on Enter keypress */
 }
 
 
