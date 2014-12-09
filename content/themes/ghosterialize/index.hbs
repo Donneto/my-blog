@@ -1,0 +1,63 @@
+{{!< default}}
+
+{{! This is the post loop - each post will be output using this markup }}
+{{#if image}}
+		<section id="blog-intro" class="cyan section z-depth-1 article-intro" style="background-image:url('{{@blog.cover}}');">
+{{else}}
+	<section id="blog-intro" class="cyan section z-depth-1 article-intro" style="background-image:url('{{asset "images/index.jpg"}}');">
+{{/if}}
+
+{{!-- <section id="blog-intro" class="cyan section z-depth-1" style="background-image:url('{{@blog.cover}}');">
+ --}}	<div class="container">
+		<h2 id="blog-title" class="white-text">{{@blog.title}}</h2>
+		<h5 class="white-text">{{@blog.description}}</h5>
+	</div>
+</section>
+<section id="index-posts-container" class="container">
+{{#foreach posts}}
+	<article class="{{post_class}}">
+		<div class="card-panel z-depth-1">
+			<div class="row">
+				<div class="col s12 m9">
+					<header class="post-header">
+						<h4 class="post-title "><a class="grey-text darken-3" href="{{url}}">{{{title}}}</a></h4>
+					</header>
+					<section class="post-excerpt">
+						<p class="flow-text">{{excerpt words="30"}}...</p>
+						<a href="{{url}}" class="read-more waves-effect waves-light btn cyan darken-2">Read more</a>
+					</section>
+				</div>
+				<aside class="col s12 m3">
+					<footer class="post-meta container">
+						{{#if author.image}}
+							<p><img class="author-thumb" src="{{author.image}}" alt="Author image" nopin="nopin" /></p>
+						{{/if}}
+						<p>
+							{{author}} <br><time class="post-date grey-text lighten-1" datetime="{{date format='YYYY-MM-DD'}}">{{date format="DD MMMM YYYY"}}</time>
+						</p>
+						{{#if tags}}
+							<p class="tag-cloud">
+								<span><i class="mdi-maps-local-offer"></i>{{tags prefix=" "}}</span>
+							</p>
+						{{/if}}
+					</footer>
+				</aside>
+			</div>
+		</div>
+	  {{!--   <header class="post-header">
+	        <h2 class="post-title"><a href="{{url}}">{{{title}}}</a></h2>
+	    </header>
+	    <section class="post-excerpt">
+	        <p>{{excerpt words="26"}} <a class="read-more" href="{{url}}">&raquo;</a></p>
+	    </section>
+	    <footer class="post-meta">
+	        {{#if author.image}}<img class="author-thumb" src="{{author.image}}" alt="Author image" nopin="nopin" />{{/if}}
+	        {{author}}
+	        {{tags prefix=" on "}}
+	        <time class="post-date" datetime="{{date format='YYYY-MM-DD'}}">{{date format="DD MMMM YYYY"}}</time>
+	    </footer> --}}
+	</article>
+
+{{/foreach}}
+{{pagination}}
+</section>

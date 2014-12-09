@@ -1,0 +1,47 @@
+{{!< default}}
+
+{{! The comment above "< default" means - insert everything in this file into
+	the {body} of the default.hbs template, which contains our header/footer. }}
+
+{{! Everything inside the #post tags pulls data from the post }}
+{{#post}}
+{{!-- {{#if image}}
+	<div class="post-header-img" style="background-image:url('{{image}}');">
+	</div>
+{{/if}} --}}
+<main class="content" role="main">
+	{{#if image}}
+		<section id="blog-intro" class="cyan section z-depth-1 article-intro" style="background-image:url('{{image}}');"></section>
+	{{else}}
+		<section id="blog-intro" class="cyan section z-depth-1 article-intro" style="background-image:url('{{asset "images/post.jpg"}}');"></section>
+	{{/if}}
+	<section id="main-inner-container" class="container">
+		<article class="{{post_class}} card-panel z-depth-1 article-container">
+			<header>
+				<time class="post-date grey-text" datetime="{{date format='YYYY-MM-DD'}}"><i class="fa fa-clock-o"></i> {{date format="DD MMMM YYYY"}}</time>
+				<h1>{{title}}</h1>
+				{{#if tags}}
+					<div class="tag-cloud">
+						<span><i class="mdi-maps-local-offer"></i>{{tags prefix=" "}}</span>
+					</div>
+				{{/if}}
+			</header>
+			<section class="post-content">
+				{{content}}
+			</section>
+			<footer>
+				{{!-- Social Share --}}
+				<section id="social-share">
+					<p>
+						Share this post: <br>
+						<a href="http://twitter.com/share?text={{title}}&url={{url absolute="true"}}" target="_new" class="btn-floating white cyan-text" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;"><i class="fa fa-twitter cyan-text"></i></a>
+						<a href="https://www.facebook.com/sharer/sharer.php?u={{url absolute="true"}}" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;" class="btn-floating white cyan-text"><i class="fa fa-facebook cyan-text"></i></a>
+						<a href="https://plus.google.com/share?url={{url absolute="true"}}" class="btn-floating white cyan-text" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;"><i class="fa fa-google-plus cyan-text"></i></a>
+					</p>
+				</section>
+			</footer>
+		</article>
+	</section>
+</main>
+
+{{/post}}

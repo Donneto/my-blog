@@ -1,0 +1,151 @@
+{{!< default}}
+
+{{! The comment above "< default" means - insert everything in this file into
+	the {body} of the default.hbs template, which contains our header/footer. }}
+
+{{! Everything inside the #post tags pulls data from the post }}
+{{#post}}
+{{!-- {{#if image}}
+	<div class="post-header-img" style="background-image:url('{{image}}');">
+	</div>
+{{/if}} --}}
+<main class="content" role="main">
+	{{#if image}}
+		<section id="blog-intro" class="cyan section z-depth-1 article-intro" style="background-image:url('{{image}}');"></section>
+	{{else}}
+		<section id="blog-intro" class="cyan section z-depth-1 article-intro" style="background-image:url('{{asset "images/index.jpg"}}');"></section>
+	{{/if}}
+
+	<section id="main-inner-container" class="container">
+		<article class="{{post_class}} card-panel z-depth-1 article-container">
+			<header>
+				<time class="post-date grey-text" datetime="{{date format='YYYY-MM-DD'}}"><i class="fa fa-clock-o"></i> {{date format="DD MMMM YYYY"}}</time>
+				<h1>{{title}}</h1>
+				{{#if tags}}
+					<div class="tag-cloud">
+						<span><i class="mdi-maps-local-offer"></i>{{tags prefix=" "}}</span>
+					</div>
+				{{/if}}
+			</header>
+			<section class="post-content">
+				{{content}}
+			</section>
+			<footer>
+				{{!-- Social Share --}}
+				<section id="social-share">
+					<p>
+						Share this post: <br>
+						<a href="http://twitter.com/share?text={{title}}&url={{url absolute="true"}}" target="_new" class="btn-floating white cyan-text darken-2" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;"><i class="fa fa-twitter cyan-text darken-2"></i></a>
+						<a href="https://www.facebook.com/sharer/sharer.php?u={{url absolute="true"}}" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;" class="btn-floating white cyan-text"><i class="fa fa-facebook cyan-text darken-2"></i></a>
+						<a href="https://plus.google.com/share?url={{url absolute="true"}}" class="btn-floating white cyan-text darken-2" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;"><i class="fa fa-google-plus cyan-text darken-2 "></i></a>
+					</p>
+				</section>
+				<section id="publisher-info" class="container">
+					{{#author}}
+							{{#if image}}
+								<p class="profile-image-wrapper">
+									<img src="{{image}}" alt="{{name}}">
+								</p>
+							{{/if}}
+							<section>
+								<h4><a class="grey-text darken-2" href="{{url}}">{{name}}</a></h4>
+								{{#if bio}}
+									<p class="grey-text darken-2">{{bio}}</p>
+									<p class="grey-text darken-2">Read <a href="{{url}}" class="cyan-text darken-1">more posts</a> by this author.</p>
+								{{else}}
+									<p>Read <a href="{{url}}">more posts</a> by this author.</p>
+								{{/if}}
+							</section>
+						</div>
+					{{/author}}
+				</section>
+				<!-- Disqus Comments -->
+				<section class="comments">
+					<div id="disqus_thread"></div>
+					<script type="text/javascript">
+						/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+						var disqus_shortname = 'donnetox'; // required: replace example with your forum shortname
+						var disqus_identifier = '{{id}}';
+						var disqus_title = '{{title}}';
+						var disqus_url = '{{url absolute="true"}}';
+
+						/* * * DON'T EDIT BELOW THIS LINE * * */
+						(function() {
+							var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+							dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+							(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+						})();
+					</script>
+					<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+					<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+				</section>
+			{{!-- {{! Everything inside the #author tags pulls data from the author }}
+			{{#author}}
+
+				{{#if image}}
+				<figure class="author-image">
+					<a class="img" href="{{url}}" style="background-image: url({{image}})"><span class="hidden">{{name}}'s Picture</span></a>
+				</figure>
+				{{/if}}
+
+				<section class="author">
+					<h4><a href="{{url}}">{{name}}</a></h4>
+
+					{{#if bio}}
+						<p>{{bio}}</p>
+					{{else}}
+						<p>Read <a href="{{url}}">more posts</a> by this author.</p>
+					{{/if}}
+					<div class="author-meta">
+						{{#if location}}<span class="author-location icon-location">{{location}}</span>{{/if}}
+						{{#if website}}<span class="author-link icon-link"><a href="{{website}}">{{website}}</a></span>{{/if}}
+					</div>
+				</section>
+
+			{{/author}} --}}
+
+				{{!-- <section class="share">
+					<h4>Share this post</h4>
+					<a class="icon-twitter" href="https://twitter.com/share?text={{encode title}}&amp;url={{url absolute="true"}}"
+						onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+						<span class="hidden">Twitter</span>
+					</a>
+					<a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{url absolute="true"}}"
+						onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+						<span class="hidden">Facebook</span>
+					</a>
+					<a class="icon-google-plus" href="https://plus.google.com/share?url={{url absolute="true"}}"
+					   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+						<span class="hidden">Google+</span>
+					</a>
+				</section> --}}
+
+			</footer>
+		</article>
+		
+
+		{{!-- <section id="publisher-info" class="card-panel z-depth-1">
+			{{#author}}
+				<div class="row">
+					{{#if image}}
+						<aside class="col s12 m3">
+							<p class="profile-image-wrapper">
+								<img src="{{image}}" alt="{{name}}">
+							</p>
+						</aside>
+					{{/if}}
+					<section class="col s12 m9">
+						<h4><a href="{{url}}">{{name}}</a></h4>
+						{{#if bio}}
+							<p>{{bio}}</p>
+						{{else}}
+							<p>Read <a href="{{url}}">more posts</a> by this author.</p>
+						{{/if}}
+					</section>
+				</div>
+			{{/author}}
+		</section> --}}
+	</section>
+</main>
+
+{{/post}}

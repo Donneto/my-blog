@@ -1,0 +1,18 @@
+
+<div id="pagination-container" class="row" role="pagination">
+	<p>
+		{{#if prev}}
+			<a href="{{page_url prev}}" class="btn-floating cyan darken-2 btn-prev">
+				<i class="fa fa-angle-left white-text"></i>
+			</a>
+		{{/if}}
+		{{#if next}}
+			<a href="{{page_url next}}" class="btn-floating cyan darken-2 btn-next">
+				<i class="fa fa-angle-right white-text"></i>
+			</a>
+		{{/if}}
+	</p>
+	<p><span>{{page}} of {{pages}}</span></p>
+	{{!-- <div class="col s12 m4"><span class="page-number">Page {{page}} of {{pages}}</span></div>
+	<div class="col s12 m4">{{#if next}}<a class="older-posts" href="{{pageUrl next}}">&rarr;</a>{{/if}}</div> --}}
+</div>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{{! Document Settings }}
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	{{! Page Meta }}
+	<title>{{meta_title}}</title>
+	<meta name="description" content="{{meta_description}}" />
+
+	<meta name="HandheldFriendly" content="True" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<link rel="shortcut icon" href="{{asset 'favicon.ico'}}">
+
+	{{! Styles'n'Scripts }}
+	<link rel="stylesheet" type="text/css" href="{{asset 'font/font-awesome/css/font-awesome.min.css'}}" />
+	<link rel="stylesheet" type="text/css" href="{{asset 'css/materialize.css'}}" />
+	<link rel="stylesheet" type="text/css" href="{{asset 'css/prism.css'}}" />
+
+	{{! Ghost outputs important style and meta data with this tag }}
+	{{ghost_head}}
+</head>
+<body class="{{body_class}} grey lighten-5">
+	<nav>
+		<div class="nav-wrapper cyan darken-3">
+			<ul id="nav-mobile" class="left side-nav">
+				<li><a href="/">HOME</a></li>
+				<li><a href="/about">ABOUT</a></li>
+				<li><a href="">CONTACT</a></li>
+			</ul>
+			<a class="button-collapse" href="#" data-activates="nav-mobile"><i class="mdi-navigation-menu"></i></a>
+		</div>
+	</nav>
+
+	{{! Everything else gets inserted here }}
+	{{{body}}}
+
+	{{!-- Footer --}}
+	<footer class="site-footer clearfix">
+		 <section class="copyright grey-text darken-2"><a href="{{@blog.url}}" class="grey-text darken-5">{{@blog.title}}</a> &copy; {{date format="YYYY"}}</section>
+		 <section class="poweredby grey-text darken-2">proudly published with <a href="https://ghost.org" class="grey-text darken-5">Ghost</a></section>
+	</footer>
+
+	{{! Ghost outputs important scripts and data with this tag }}
+	{{ghost_foot}}
+
+	{{! The main JavaScript file for Casper }}
+	<script type="text/javascript" src="{{asset "js/prod/materialize.js"}}"></script>
+	<script type="text/javascript" src="{{asset "js/prod/prism.js"}}"></script>
+</body>
+</html>
