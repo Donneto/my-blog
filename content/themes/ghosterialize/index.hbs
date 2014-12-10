@@ -1,16 +1,16 @@
 {{!< default}}
 
 {{! This is the post loop - each post will be output using this markup }}
-{{#if image}}
-		<section id="blog-intro" class="cyan section z-depth-1 article-intro" style="background-image:url('{{@blog.cover}}');">
+{{#if @blog.cover}}
+	<section id="blog-intro" class="cyan section z-depth-1" style="background-image:url('{{@blog.cover}}');">
 {{else}}
-	<section id="blog-intro" class="cyan section z-depth-1 article-intro" style="background-image:url('{{asset "images/index.jpg"}}');">
+	<section id="blog-intro" class="cyan section z-depth-1" style="background-image:url('{{asset "images/index.jpg"}}');">
 {{/if}}
-	<div class="container">
-		<h2 id="blog-title" class="white-text">{{@blog.title}}</h2>
-		<h5 class="white-text">{{@blog.description}}</h5>
-	</div>
-</section>
+		<div class="container">
+			<h2 id="blog-title" class="white-text">{{@blog.title}}</h2>
+			<h5 class="white-text">{{@blog.description}}</h5>
+		</div>
+	</section>
 <section id="index-posts-container" class="container">
 {{#foreach posts}}
 	<article class="{{post_class}}">
