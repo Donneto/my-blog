@@ -6,9 +6,7 @@
 {{else}}
 	<section id="blog-intro" class="cyan section z-depth-1 article-intro" style="background-image:url('{{asset "images/index.jpg"}}');">
 {{/if}}
-
-{{!-- <section id="blog-intro" class="cyan section z-depth-1" style="background-image:url('{{@blog.cover}}');">
- --}}	<div class="container">
+	<div class="container">
 		<h2 id="blog-title" class="white-text">{{@blog.title}}</h2>
 		<h5 class="white-text">{{@blog.description}}</h5>
 	</div>
@@ -44,20 +42,7 @@
 				</aside>
 			</div>
 		</div>
-	  {{!--   <header class="post-header">
-	        <h2 class="post-title"><a href="{{url}}">{{{title}}}</a></h2>
-	    </header>
-	    <section class="post-excerpt">
-	        <p>{{excerpt words="26"}} <a class="read-more" href="{{url}}">&raquo;</a></p>
-	    </section>
-	    <footer class="post-meta">
-	        {{#if author.image}}<img class="author-thumb" src="{{author.image}}" alt="Author image" nopin="nopin" />{{/if}}
-	        {{author}}
-	        {{tags prefix=" on "}}
-	        <time class="post-date" datetime="{{date format='YYYY-MM-DD'}}">{{date format="DD MMMM YYYY"}}</time>
-	    </footer> --}}
 	</article>
-
 {{/foreach}}
 {{pagination}}
 </section>
