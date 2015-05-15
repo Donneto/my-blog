@@ -38,6 +38,10 @@ apiRoutes = function (middleware) {
 
     // ## Tags
     router.get('/tags', api.http(api.tags.browse));
+    router.get('/tags/:id', api.http(api.tags.read));
+    router.post('/tags', api.http(api.tags.add));
+    router.put('/tags/:id', api.http(api.tags.edit));
+    router.del('/tags/:id', api.http(api.tags.destroy));
 
     // ## Roles
     router.get('/roles/', api.http(api.roles.browse));
@@ -61,9 +65,7 @@ apiRoutes = function (middleware) {
 
     // ## Mail
     router.post('/mail', api.http(api.mail.send));
-    router.post('/mail/test', function (req, res) {
-        api.http(api.mail.sendTest)(req, res);
-    });
+    router.post('/mail/test', api.http(api.mail.sendTest));
 
     // ## Authentication
     router.post('/authentication/passwordreset',

@@ -35,6 +35,8 @@ stripProperties = function stripProperties(properties, data) {
 };
 
 utils = {
+    internal: internal,
+
     processUsers: function preProcessUsers(tableData, owner, existingUsers, objs) {
         // We need to:
         // 1. figure out who the owner of the blog is
@@ -157,14 +159,14 @@ utils = {
 
         tableData = stripProperties(['id'], tableData);
         _.each(tableData, function (tag) {
-             // Validate minimum tag fields
+            // Validate minimum tag fields
             if (areEmpty(tag, 'name', 'slug')) {
                 return;
             }
 
             ops.push(models.Tag.findOne({name: tag.name}, {transacting: transaction}).then(function (_tag) {
                 if (!_tag) {
-                    return models.Tag.add(tag, _.extend(internal, {transacting: transaction}))
+                    return models.Tag.add(tag, _.extend({}, internal, {transacting: transaction}))
                         .catch(function (error) {
                             return Promise.reject({raw: error, model: 'tag', data: tag});
                         });
@@ -185,34 +187,25 @@ utils = {
         var ops = [];
 
         tableData = stripProperties(['id'], tableData);
-
         _.each(tableData, function (post) {
-             // Validate minimum post fields
+            // Validate minimum post fields
             if (areEmpty(post, 'title', 'slug', 'markdown')) {
                 return;
             }
 
-            ops.push(function () {
-                return models.Post.add(post, _.extend(internal, {transacting: transaction, importing: true}))
+            // The post importer has auto-timestamping disabled
+            if (!post.created_at) {
+                post.created_at = Date.now();
+            }
+
+            ops.push(models.Post.add(post, _.extend({}, internal, {transacting: transaction, importing: true}))
                     .catch(function (error) {
                         return Promise.reject({raw: error, model: 'post', data: post});
-                    });
-            });
+                    })
+            );
         });
 
-        return Promise.reduce(ops, function (results, op) {
-            return op().then(function (result) {
-                results.push(result);
-
-                return results;
-            }).catch(function (error) {
-                if (error) {
-                    results.push(error);
-                }
-
-                return results;
-            });
-        }, []).settle();
+        return Promise.settle(ops);
     },
 
     importUsers: function importUsers(tableData, existingUsers, transaction) {
@@ -220,7 +213,7 @@ utils = {
 
         tableData = stripProperties(['id'], tableData);
         _.each(tableData, function (user) {
-             // Validate minimum user fields
+            // Validate minimum user fields
             if (areEmpty(user, 'name', 'slug', 'email')) {
                 return;
             }
@@ -234,7 +227,7 @@ utils = {
             user.password = globalUtils.uid(50);
             user.status = 'locked';
 
-            ops.push(models.User.add(user, _.extend(internal, {transacting: transaction}))
+            ops.push(models.User.add(user, _.extend({}, internal, {transacting: transaction}))
                 .catch(function (error) {
                     return Promise.reject({raw: error, model: 'user', data: user});
                 }));
@@ -264,7 +257,7 @@ utils = {
             datum.key = updatedSettingKeys[datum.key] || datum.key;
         });
 
-        ops.push(models.Settings.edit(tableData, _.extend(internal, {transacting: transaction})).catch(function (error) {
+        ops.push(models.Settings.edit(tableData, _.extend({}, internal, {transacting: transaction})).catch(function (error) {
             // Ignore NotFound errors
             if (!(error instanceof errors.NotFoundError)) {
                 return Promise.reject({raw: error, model: 'setting', data: tableData});
@@ -287,7 +280,7 @@ utils = {
             // Avoid duplicates
             ops.push(models.App.findOne({name: app.name}, {transacting: transaction}).then(function (_app) {
                 if (!_app) {
-                    return models.App.add(app, _.extend(internal, {transacting: transaction}))
+                    return models.App.add(app, _.extend({}, internal, {transacting: transaction}))
                         .catch(function (error) {
                             return Promise.reject({raw: error, model: 'app', data: app});
                         });

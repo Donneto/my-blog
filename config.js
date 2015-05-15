@@ -8,7 +8,7 @@ config = {
     // ### Development **(default)**
     development: {
         // The url to use when providing links to the site, E.g. in RSS and email.
-        url: 'http://adolfogutierrez.me',
+        url: 'http://adolfo-gutierrez.me',
 
         // Example mail config
         // Visit http://docs.ghost.org/mail for instructions
@@ -30,7 +30,7 @@ config = {
             connection: {
                 host: 'localhost',
                 user: 'root',
-                password: 'sanservices01',
+                password: '',
                 database: 'ghost',
                 charset: 'utf8',
                 debug: false

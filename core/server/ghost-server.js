@@ -8,7 +8,8 @@ var Promise = require('bluebird'),
 function GhostServer(rootApp) {
     this.rootApp = rootApp;
     this.httpServer = null;
-    this.connections = [];
+    this.connections = {};
+    this.connectionId = 0;
     this.upgradeWarning = setTimeout(this.logUpgradeWarning.bind(this), 5000);
 
     // Expose config module for use externally.
@@ -16,21 +17,37 @@ function GhostServer(rootApp) {
 }
 
 GhostServer.prototype.connection = function (socket) {
-    this.connections.push(socket);
+    var self = this;
+
+    self.connectionId += 1;
+    socket._ghostId = self.connectionId;
+
+    socket.on('close', function () {
+        delete self.connections[this._ghostId];
+    });
+
+    self.connections[socket._ghostId] = socket;
 };
 
-// Most browsers keep a persistant connection open to the server
+// Most browsers keep a persistent connection open to the server
 // which prevents the close callback of httpServer from returning
 // We need to destroy all connections manually
 GhostServer.prototype.closeConnections = function () {
-    this.connections.forEach(function (socket) {
-        socket.destroy();
+    var self = this;
+
+    Object.keys(self.connections).forEach(function (socketId) {
+        var socket = self.connections[socketId];
+
+        if (socket) {
+            socket.destroy();
+        }
     });
 };
 
 GhostServer.prototype.logStartMessages = function () {
     // Tell users if their node version is not supported, and exit
-    if (!semver.satisfies(process.versions.node, packageInfo.engines.node)) {
+    if (!semver.satisfies(process.versions.node, packageInfo.engines.node) &&
+        !semver.satisfies(process.versions.node, packageInfo.engines.iojs)) {
         console.log(
             '\nERROR: Unsupported version of Node'.red,
             '\nGhost needs Node version'.red,
@@ -51,15 +68,6 @@ GhostServer.prototype.logStartMessages = function () {
             config.url,
             '\nCtrl+C to shut down'.grey
         );
-
-        // ensure that Ghost exits correctly on Ctrl+C
-        process.removeAllListeners('SIGINT').on('SIGINT', function () {
-            console.log(
-                '\nGhost has shut down'.red,
-                '\nYour blog is now offline'
-            );
-            process.exit(0);
-        });
     } else {
         console.log(
             ('Ghost is running in ' + process.env.NODE_ENV + '...').green,
@@ -69,17 +77,27 @@ GhostServer.prototype.logStartMessages = function () {
             config.url,
             '\nCtrl+C to shut down'.grey
         );
-        // ensure that Ghost exits correctly on Ctrl+C
-        process.removeAllListeners('SIGINT').on('SIGINT', function () {
+    }
+
+    function shutdown() {
+        console.log('\nGhost has shut down'.red);
+        if (process.env.NODE_ENV === 'production') {
             console.log(
-                '\nGhost has shutdown'.red,
+                '\nYour blog is now offline'
+            );
+        } else {
+            console.log(
                 '\nGhost was running for',
                 Math.round(process.uptime()),
                 'seconds'
             );
-            process.exit(0);
-        });
+        }
+        process.exit(0);
     }
+    // ensure that Ghost exits correctly on Ctrl+C and SIGTERM
+    process.
+        removeAllListeners('SIGINT').on('SIGINT', shutdown).
+        removeAllListeners('SIGTERM').on('SIGTERM', shutdown);
 };
 
 GhostServer.prototype.logShutdownMessages = function () {
@@ -97,7 +115,7 @@ GhostServer.prototype.logUpgradeWarning = function () {
 /**
  * Starts the ghost server listening on the configured port.
  * Alternatively you can pass in your own express instance and let Ghost
- * start lisetning for you.
+ * start listening for you.
  * @param  {Object=} externalApp Optional express app instance.
  * @return {Promise}
  */
@@ -107,19 +125,19 @@ GhostServer.prototype.start = function (externalApp) {
 
     // ## Start Ghost App
     return new Promise(function (resolve) {
-        if (config.getSocket()) {
+        var socketConfig = config.getSocket();
+
+        if (socketConfig) {
             // Make sure the socket is gone before trying to create another
             try {
-                fs.unlinkSync(config.getSocket());
+                fs.unlinkSync(socketConfig.path);
             } catch (e) {
                 // We can ignore this.
             }
 
-            self.httpServer = rootApp.listen(
-                config.getSocket()
-            );
+            self.httpServer = rootApp.listen(socketConfig.path);
 
-            fs.chmod(config.getSocket(), '0660');
+            fs.chmod(socketConfig.path, socketConfig.permissions);
         } else {
             self.httpServer = rootApp.listen(
                 config.server.port,
