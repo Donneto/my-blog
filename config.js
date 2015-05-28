@@ -55,7 +55,7 @@ config = {
             connection: {
                 host: 'localhost',
                 user: 'root',
-                password: '@d0lf01987',
+                password: '',
                 database: 'ghost',
                 charset: 'utf8',
                 debug: false

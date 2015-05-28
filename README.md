@@ -1,6 +1,14 @@
-## adolfogutierrez.me
+## adolfo-gutierrez.me
 
-* Node
-* Ghost
-* mysql
-* nginx
+My blog's repository.
+
+-   Nodejs.
+-   [Ghost](https://ghost.org/)
+-   Mysql.
+- 	Nginx
+-   [Materializecss Framework](http://materializecss.com/).
+-   Sass
+
+
+
+
